@@ -1,3 +1,4 @@
+# Adaline.py
 import numpy as np
 
 

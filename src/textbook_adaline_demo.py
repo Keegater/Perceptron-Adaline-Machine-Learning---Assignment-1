@@ -1,7 +1,8 @@
+# textbook_adaline_demo.py
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from models.Perceptron import Perceptron
+from models.Adaline import AdalineGD
 from matplotlib.colors import ListedColormap
 
 
@@ -24,15 +25,21 @@ plt.ylabel('Petal length [cm]')
 plt.legend(loc='upper left')
 plt.show()
 
-
-ppn = Perceptron(eta=0.1, n_iter=10)
-ppn.fit(X, y)
-
-plt.plot(range(1, len(ppn.errors_) + 1),
-         ppn.errors_, marker='o')
-plt.xlabel('Epochs')
-plt.ylabel('Number of updates')
+fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(10, 4))
+ada1 = AdalineGD(n_iter=15, eta=0.1).fit(X, y)
+ax[0].plot(range(1, len(ada1.losses_) + 1),
+           np.log10(ada1.losses_), marker='o')
+ax[0].set_xlabel('Epochs')
+ax[0].set_ylabel('log(Mean squared error)')
+ax[0].set_title('Adaline - Learning rate 0.1')
+ada2 = AdalineGD(n_iter=15, eta=0.0001).fit(X, y)
+ax[1].plot(range(1, len(ada2.losses_) + 1),
+           ada2.losses_, marker='o')
+ax[1].set_xlabel('Epochs')
+ax[1].set_ylabel('Mean squared error')
+ax[1].set_title('Adaline - Learning rate 0.0001')
 plt.show()
+
 
 def plot_decision_regions(X, y, classifier, resolution=0.02):
     #setup marker generator and color map
@@ -61,8 +68,23 @@ def plot_decision_regions(X, y, classifier, resolution=0.02):
                     edgecolor='black')
 
 
-plot_decision_regions(X, y, classifier=ppn)
-plt.xlabel('Sepal length [cm]')
-plt.ylabel('Petal length [cm]')
+
+X_std = np.copy(X)
+X_std[:, 0] = (X[:, 0] - X[:, 0].mean()) / X[:, 0].std()
+X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
+
+ada_gd = AdalineGD(n_iter=20, eta=0.5)
+ada_gd.fit(X_std, y)
+plot_decision_regions(X_std, y, classifier=ada_gd)
+plt.title('Adaline - Gradient descent')
+plt.xlabel('Sepal length [standardized]')
+plt.ylabel('Petal length [standardized]')
 plt.legend(loc='upper left')
+plt.tight_layout()
+plt.show()
+plt.plot(range(1, len(ada_gd.losses_) + 1),
+         ada_gd.losses_, marker='o')
+plt.xlabel('Epochs')
+plt.ylabel('Mean squared error')
+plt.tight_layout()
 plt.show()
