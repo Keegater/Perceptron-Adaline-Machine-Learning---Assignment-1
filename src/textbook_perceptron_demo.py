@@ -2,7 +2,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from models.Perceptron import Perceptron
+from Perceptron import Perceptron
 from matplotlib.colors import ListedColormap
 
 

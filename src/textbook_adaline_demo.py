@@ -2,7 +2,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
-from models.Adaline import AdalineGD
+from Adaline import AdalineGD
 from matplotlib.colors import ListedColormap
 
 
