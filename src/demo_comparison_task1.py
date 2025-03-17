@@ -20,11 +20,15 @@ X_std[:, 1] = (X[:, 1] - X[:, 1].mean()) / X[:, 1].std()
 
 
 # run and generate graphs for each combo of learning rate and epochs
-etas = [0.5, 0.15, 0.01, 0.001]
+etas = [0.8, 0.15, 0.001]
 iters = [10, 100, 1000]
 for eta in etas:
+    print("########################################################")
+    print("Testing with Learning Rate: {}\n".format(eta))
     for n_iter in iters:
 
+        print("--------------------------------------------------------")
+        print("{} Epochs".format(n_iter))
 
         # remove for loop and uncomment below for solo runs
 
@@ -57,19 +61,21 @@ for eta in etas:
         # Margin
         # Convergence
 
-        print("=== Perceptron Results ===")
-        print("Final weights:", ppn.w_)
-        print("Final bias:", ppn.b_)
-        print("Number of misclassifications in final epoch:", ppn.errors_[-1])
-        print("Margin (min distance to hyperplane): {:.4f}".format(margin_ppn))
+        # Print Perceptron results
+        print("= Perceptron =")
+        print("Final weights:\t", ppn.w_)
+        print("Final bias:\t", ppn.b_)
+        print("Misclassifications in final epoch:\t", ppn.errors_[-1])
+        print("Margin:\t{:.4f}".format(margin_ppn))
         print()
 
-        print("=== Adaline Results ===")
-        print("Final weights:", ada.w_)
-        print("Final bias:", ada.b_)
-        print("Final Mean Squared Error (MSE): {:.4f}".format(ada.losses_[-1]))
-        print("Margin (min distance to hyperplane): {:.4f}".format(margin_ada))
-        print()
+        # Print Adaline results
+        print("= Adaline =")
+        print("Final weights:\t", ada.w_)
+        print("Final bias:\t", ada.b_)
+        print("Final MSE:\t{:.4f}".format(ada.losses_[-1]))
+        print("Margin:\t{:.4f}".format(margin_ada))
+        print("--------------------------------------------------------\n")
 
 
         # Plot convergence curves
